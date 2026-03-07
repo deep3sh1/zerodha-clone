@@ -17,10 +17,12 @@ const MONGO_URI = process.env.MONGO_URL;
 const app = express();
 
 // -------------------- MIDDLEWARE --------------------
+
+
 app.use(cors({
   origin: [
-    "https://zerodha-frontend-tdlt.onrender.com",
-    "http://localhost:3000"
+    "https://zerodha-dashboard-kx91.onrender.com",
+    "https://zerodha-frontend-tdlt.onrender.com"
   ],
   credentials: true
 }));
