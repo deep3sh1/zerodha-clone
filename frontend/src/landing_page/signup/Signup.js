@@ -18,7 +18,7 @@ export default function Signup() {
     }
 
     try {
-      const res = await fetch("http://localhost:3002/api/auth/signup", {
+      const res = await fetch("https://zerodha-backend-q0yx.onrender.com/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export default function Signup() {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        window.location.href = `http://localhost:3001?token=${data.token}&username=${data.user.username}`;
+        window.location.href = `https://zerodha-dashboard-kx91.onrender.com?token=${data.token}&username=${data.user.username}`;
       } else {
         alert(data.message || "Signup failed");
       }
