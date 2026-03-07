@@ -19,7 +19,7 @@ const Menu = () => {
    const handleLogout = () => {
      localStorage.removeItem("user");
     localStorage.removeItem("token");                          // logout handle. 
-    window.location.href = "http://localhost:3000";
+    window.location.href = "https://zerodha-frontend-tdlt.onrender.com";
    };
 
    const menuClass = "menu ps-1";                    // colour karen ornage je slected ahe te.
