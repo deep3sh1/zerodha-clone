@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const Login = () => {
-  const [identifier, setIdentifier] = useState(""); // username/email
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -24,13 +24,9 @@ const Login = () => {
       }
 
       if (res.ok && data.token) {
-        // Save user info and token
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("token", data.token);
 
-        console.log("Saved user:", data.user);
-
-        // Redirect to dashboard
         window.location.href = `http://localhost:3001?token=${data.token}&username=${data.user.username}`;
       } else {
         alert(data.message || "Invalid username or password");
@@ -44,52 +40,92 @@ const Login = () => {
   };
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
-      <div
-        className="card shadow-lg rounded-4 p-4"
-        style={{ maxWidth: "400px", width: "100%" }}
-      >
-        <div className="text-center mb-4">
-          <h2 className="fw-bold">Login to Your Account</h2>
-          <p className="text-muted">Start your investment journey</p>
+    <div
+      className="min-vh-100 d-flex align-items-center justify-content-center px-3"
+      style={{ background: "linear-gradient(to bottom right, #e0f2fe, #ffffff)" }}
+    >
+      <div className="container">
+        <div className="row align-items-center justify-content-center g-5">
+
+          {/* Left Info Section */}
+          <div className="col-md-6 d-none d-md-flex flex-column gap-3">
+            <h1 className="fw-bold display-6 text-dark">
+              Invest in everything
+            </h1>
+
+            <p className="text-secondary fs-5">
+              Online platform to invest in stocks, derivatives, mutual funds, and more.
+            </p>
+
+            <div className="d-flex gap-3">
+              <span className="badge rounded-pill bg-info-subtle text-info px-3 py-2">
+                Simple
+              </span>
+              <span className="badge rounded-pill bg-info-subtle text-info px-3 py-2">
+                Secure
+              </span>
+              <span className="badge rounded-pill bg-info-subtle text-info px-3 py-2">
+                Fast
+              </span>
+            </div>
+          </div>
+
+          {/* Login Card */}
+          <div className="col-md-6">
+            <div className="card shadow-lg border-0 rounded-4 p-4">
+
+              <div className="text-center mb-4">
+                <h2 className="fw-semibold">Login to Your Account</h2>
+                <p className="text-muted small">
+                  Start your investment journey
+                </p>
+              </div>
+
+              <form onSubmit={handleLogin} className="d-flex flex-column gap-3">
+
+                <input
+                  type="text"
+                  className="form-control form-control-lg rounded-3"
+                  placeholder="Username or Email"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  required
+                />
+
+                <input
+                  type="password"
+                  className="form-control form-control-lg rounded-3"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg rounded-3 mt-2"
+                  disabled={loading}
+                >
+                  {loading ? "Logging in..." : "Login"}
+                </button>
+
+              </form>
+
+              <p className="text-center text-muted small mt-3 mb-0">
+                Don't have an account?{" "}
+                <span
+                  className="text-primary"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => (window.location.href = "/signup")}
+                >
+                  Sign Up
+                </span>
+              </p>
+
+            </div>
+          </div>
+
         </div>
-
-        <form onSubmit={handleLogin} className="d-flex flex-column gap-3">
-          <input
-            type="text"
-            className="form-control form-control-lg"
-            placeholder="Username or Email"
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            className="form-control form-control-lg"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button
-            type="submit"
-            className="btn btn-primary btn-lg mt-2"
-            disabled={loading}
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
-
-        <p className="text-center text-muted mt-3 mb-0">
-          Don't have an account?{" "}
-          <span
-            className="text-primary"
-            style={{ cursor: "pointer" }}
-            onClick={() => (window.location.href = "/signup")}
-          >
-            Sign Up
-          </span>
-        </p>
       </div>
     </div>
   );
