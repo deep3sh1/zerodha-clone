@@ -17,12 +17,14 @@ const MONGO_URI = process.env.MONGO_URL;
 const app = express();
 
 // -------------------- MIDDLEWARE --------------------
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: [
+    "https://zerodha-frontend-tdlt.onrender.com",
+    "http://localhost:3000"
+  ],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 
