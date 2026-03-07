@@ -31,11 +31,9 @@ export default function Signup() {
       if (res.ok && data.token) {
         alert("Signup successful!");
 
-        // store user and token
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        // redirect to dashboard
         window.location.href = `http://localhost:3001?token=${data.token}&username=${data.user.username}`;
       } else {
         alert(data.message || "Signup failed");
@@ -47,84 +45,108 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-white px-4">
-      <div className="grid md:grid-cols-2 gap-10 max-w-5xl w-full items-center">
-        <div className="hidden md:flex flex-col gap-6">
-          <h1 className="text-4xl font-bold text-slate-900 leading-tight">
-            Invest in everything
-          </h1>
-          <p className="text-slate-600 text-lg">
-            Online platform to invest in stocks, derivatives, mutual funds, and more.
-          </p>
-          <div className="flex gap-4">
-            <span className="bg-sky-100 text-sky-700 px-4 py-2 rounded-xl text-sm font-medium">Simple</span>
-            <span className="bg-sky-100 text-sky-700 px-4 py-2 rounded-xl text-sm font-medium">Secure</span>
-            <span className="bg-sky-100 text-sky-700 px-4 py-2 rounded-xl text-sm font-medium">Fast</span>
-          </div>
-        </div>
+    <div
+      className="min-vh-100 d-flex align-items-center justify-content-center px-3"
+      style={{ background: "linear-gradient(to bottom right, #e0f2fe, #ffffff)" }}
+    >
+      <div className="container">
+        <div className="row align-items-center justify-content-center g-5">
 
-        <div className="bg-white shadow-xl rounded-2xl p-8 border w-full">
-          <div className="flex flex-col gap-6">
-            <div className="text-center">
-              <h2 className="text-2xl font-semibold text-slate-900">Create your account</h2>
-              <p className="text-sm text-slate-500 mt-1">Start your investment journey today</p>
-            </div>
+          {/* Left Info Section */}
+          <div className="col-md-6 d-none d-md-flex flex-column gap-3">
+            <h1 className="fw-bold display-6 text-dark">
+              Invest in everything
+            </h1>
 
-            <form className="flex flex-col gap-4" onSubmit={handleSignup}>
-              <input
-                type="text"
-                placeholder="Full Name"
-                className="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-sky-400"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-
-              <input
-                type="email"
-                placeholder="Email Address"
-                className="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-sky-400"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-sky-400"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                className="w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-sky-400"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
-
-              <button
-                type="submit"
-                className="w-full rounded-xl text-base py-3 bg-sky-500 hover:bg-sky-600 text-white font-semibold mt-2"
-              >
-                Sign Up
-              </button>
-            </form>
-
-            <p className="text-center text-sm text-slate-500 mt-2">
-              Already have an account?{" "}
-              <span
-                className="text-sky-600 cursor-pointer hover:underline"
-                onClick={() => navigate("/Login")}
-              >
-                Login
-              </span>
+            <p className="text-secondary fs-5">
+              Online platform to invest in stocks, derivatives, mutual funds, and more.
             </p>
+
+            <div className="d-flex gap-3">
+              <span className="badge rounded-pill bg-info-subtle text-info px-3 py-2">
+                Simple
+              </span>
+              <span className="badge rounded-pill bg-info-subtle text-info px-3 py-2">
+                Secure
+              </span>
+              <span className="badge rounded-pill bg-info-subtle text-info px-3 py-2">
+                Fast
+              </span>
+            </div>
           </div>
+
+          {/* Signup Card */}
+          <div className="col-md-6">
+            <div className="card shadow-lg border-0 rounded-4 p-4">
+
+              <div className="text-center mb-4">
+                <h2 className="fw-semibold">Create your account</h2>
+                <p className="text-muted small">
+                  Start your investment journey today
+                </p>
+              </div>
+
+              <form className="d-flex flex-column gap-3" onSubmit={handleSignup}>
+
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  className="form-control form-control-lg rounded-3"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  className="form-control form-control-lg rounded-3"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="form-control form-control-lg rounded-3"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+
+                <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  className="form-control form-control-lg rounded-3"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg rounded-3 mt-2"
+                >
+                  Sign Up
+                </button>
+
+              </form>
+
+              <p className="text-center text-muted small mt-3">
+                Already have an account?{" "}
+                <span
+                  className="text-primary"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/Login")}
+                >
+                  Login
+                </span>
+              </p>
+
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
