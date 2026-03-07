@@ -11,7 +11,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:3002/orders", {
+        const res = await axios.get("https://zerodha-backend-q0yx.onrender.com/orders", {
           headers: {
             Authorization: `Bearer ${token}`, // Use Bearer format
           },
