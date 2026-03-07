@@ -21,7 +21,7 @@ const OrderActionWindow = ({ uid }) => {
       }
 
       const res = await axios.post(
-        "http://localhost:3002/newOrder",
+        "https://zerodha-backend-q0yx.onrender.com/newOrder",
         {
           name: uid,
           qty: stockQuantity,
