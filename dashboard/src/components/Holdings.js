@@ -8,7 +8,7 @@ const Holdings = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const url = "http://localhost:3002/allHoldings";
+    const url = "https://zerodha-backend-q0yx.onrender.com/allHoldings";
 
     axios
       .get(url)
