@@ -44,73 +44,85 @@ const Holdings = () => {
          Total Holdings = ({allHoldings.length})
       </h3>
 
-      <div className="order-table border rounded bg-white">
-        <table className="table table-bordered table-hover mb-0">
-          <thead className="table-light">
-            <tr>
-              <th>Instrument</th>
-              <th>Qty.</th>
-              <th>Avg. cost</th>
-              <th>LTP</th>
-              <th>Cur. val</th>
-              <th>P&amp;L</th>
-              <th>Net chg.</th>
-              <th>Day chg.</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allHoldings.map((stock, index) => {
-              const curValue = stock.price * stock.qty;
-              const isProfit = curValue - stock.avg * stock.qty >= 0.0;
-              const profClass = isProfit ? "text-success" : "text-danger";
-              const dayClass = stock.isLoss ? "text-danger" : "text-success";
+      <div className="order-table border rounded-3 bg-white shadow-sm overflow-hidden">
+        <div className="table-responsive">
+          <table className="table table-hover align-middle mb-0 text-nowrap">
+            <thead className="table-light border-bottom">
+              <tr>
+                <th className="py-3 px-3">Instrument</th>
+                <th className="py-3 px-3">Qty.</th>
+                <th className="py-3 px-3">Avg. cost</th>
+                <th className="py-3 px-3">LTP</th>
+                <th className="py-3 px-3">Cur. val</th>
+                <th className="py-3 px-3">P&amp;L</th>
+                <th className="py-3 px-3">Net chg.</th>
+                <th className="py-3 px-3">Day chg.</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allHoldings.map((stock, index) => {
+                const curValue = stock.price * stock.qty;
+                const isProfit = curValue - stock.avg * stock.qty >= 0.0;
+                const profClass = isProfit ? "text-success" : "text-danger";
+                const dayClass = stock.isLoss ? "text-danger" : "text-success";
 
-              return (
-                <tr key={index}>
-                  <td className="fw-semibold">{stock.name}</td>
-                  <td>{stock.qty}</td>
-                  <td>{stock.avg.toFixed(2)}</td>
-                  <td>{stock.price.toFixed(2)}</td>
-                  <td>{curValue.toFixed(2)}</td>
-                  <td className={`fw-semibold ${profClass}`}>
-                    {(curValue - stock.avg * stock.qty).toFixed(2)}
-                  </td>
-                  <td className={`fw-semibold ${profClass}`}>
-                    {stock.net}
-                  </td>
-                  <td className={`fw-semibold ${dayClass}`}>
-                    {stock.day}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
-
-      <div className="row fw-semibold mt-2 ms-1">
-        <div className="col text-dark">
-          <h5>
-            29,875.<span>55</span>
-          </h5>
-          <p className="text-secondary">Total investment</p>
-        </div>
-
-        <div className="col text-dark ">
-          <h5>
-            31,428.<span>95</span>
-          </h5>
-          <p className="text-secondary">Current value</p>
-        </div>
-
-        <div className="col text-success">
-          <h5 className="fw-bold">1,553.40 (+5.20%)</h5>
-          <p className="text-secondary">P&amp;L</p>
+                return (
+                  <tr key={index}>
+                    <td className="px-3 fw-bold text-dark">{stock.name}</td>
+                    <td className="px-3">{stock.qty}</td>
+                    <td className="px-3">₹{stock.avg.toFixed(2)}</td>
+                    <td className="px-3 fw-semibold">₹{stock.price.toFixed(2)}</td>
+                    <td className="px-3">₹{curValue.toFixed(2)}</td>
+                    <td className={`px-3 fw-bold ${profClass}`}>
+                      {isProfit ? "+" : ""}₹{(curValue - stock.avg * stock.qty).toFixed(2)}
+                    </td>
+                    <td className={`px-3 fw-semibold ${profClass}`}>
+                      {stock.net}
+                    </td>
+                    <td className={`px-3 fw-semibold ${dayClass}`}>
+                      {stock.day}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <VerticalGraph data={data} />
+      {/* Metric Cards */}
+      <div className="row g-3 my-3">
+        <div className="col-12 col-sm-4">
+          <div className="p-3 bg-white border rounded-3 shadow-sm">
+            <h5 className="fw-bold text-dark mb-1">
+              ₹29,875.<small className="fs-6">55</small>
+            </h5>
+            <span className="text-muted small">Total Investment</span>
+          </div>
+        </div>
+
+        <div className="col-12 col-sm-4">
+          <div className="p-3 bg-white border rounded-3 shadow-sm">
+            <h5 className="fw-bold text-dark mb-1">
+              ₹31,428.<small className="fs-6">95</small>
+            </h5>
+            <span className="text-muted small">Current Value</span>
+          </div>
+        </div>
+
+        <div className="col-12 col-sm-4">
+          <div className="p-3 bg-white border rounded-3 shadow-sm">
+            <h5 className="fw-bold text-success mb-1">
+              +₹1,553.40 <small className="fs-6">(+5.20%)</small>
+            </h5>
+            <span className="text-muted small">Overall P&amp;L</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white p-3 border rounded-3 shadow-sm my-3">
+        <VerticalGraph data={data} />
+      </div>
     </>
   );
 };

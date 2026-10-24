@@ -12,7 +12,9 @@
 
 /* ✅ Main Sell Window Box */
 #sell-window {
-  width: 360px;
+  width: 90%;
+  max-width: 380px;
+  box-sizing: border-box;
   background: #ffffff;
   border-radius: 12px;
   padding: 20px;

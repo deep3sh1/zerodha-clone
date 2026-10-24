@@ -83,14 +83,13 @@ const Funds = () => {
         <div className="col-lg-4 col-md-12 d-flex flex-column justify-content-between">
           <div className="card shadow-sm text-center p-4 mb-3">
             <h5 className="text-primary mb-3">Commodity</h5>
-            <p className="mb-3">You don't have a commodity account yet</p>
-            <Link className="btn btn-primary">Open Account</Link>
+            <p className="mb-3 text-muted">You don't have a commodity account yet</p>
+            <Link to="#" className="btn btn-primary">Open Account</Link>
           </div>
 
-  
-          <div className="d-flex justify-content-end gap-3 mt-1 me-4">
-            <Link className="btn btn-success">Add Funds</Link>
-            <Link className="btn btn-primary">Withdraw</Link>
+          <div className="d-flex flex-wrap justify-content-center justify-content-sm-end gap-2 mt-2">
+            <Link to="#" className="btn btn-success px-4 py-2">Add Funds</Link>
+            <Link to="#" className="btn btn-primary px-4 py-2">Withdraw</Link>
           </div>
         </div>
       </div>

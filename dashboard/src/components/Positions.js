@@ -8,45 +8,47 @@ const Positions = () => {
         Positions ({positions.length})
       </h3>
 
-      <div className="order-table border rounded bg-white">
-        <table className="table table-bordered table-hover mb-0">
-          <thead className="table-light">
-            <tr>
-              <th>Product</th>
-              <th>Instrument</th>
-              <th>Qty.</th>
-              <th>Avg.</th>
-              <th>LTP</th>
-              <th>P&amp;L</th>
-              <th>Chg.</th>
-            </tr>
-          </thead>
+      <div className="order-table border rounded-3 bg-white shadow-sm overflow-hidden">
+        <div className="table-responsive">
+          <table className="table table-hover align-middle mb-0 text-nowrap">
+            <thead className="table-light border-bottom">
+              <tr>
+                <th className="py-3 px-3">Product</th>
+                <th className="py-3 px-3">Instrument</th>
+                <th className="py-3 px-3">Qty.</th>
+                <th className="py-3 px-3">Avg.</th>
+                <th className="py-3 px-3">LTP</th>
+                <th className="py-3 px-3">P&amp;L</th>
+                <th className="py-3 px-3">Chg.</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {positions.map((stock, index) => {
-              const curValue = stock.price * stock.qty;
-              const isProfit = curValue - stock.avg * stock.qty >= 0.0;
-              const profClass = isProfit ? "text-success" : "text-danger";
-              const dayClass = stock.isLoss ? "text-danger" : "text-success";
+            <tbody>
+              {positions.map((stock, index) => {
+                const curValue = stock.price * stock.qty;
+                const isProfit = curValue - stock.avg * stock.qty >= 0.0;
+                const profClass = isProfit ? "text-success" : "text-danger";
+                const dayClass = stock.isLoss ? "text-danger" : "text-success";
 
-              return (
-                <tr key={index}>
-                  <td>{stock.product}</td>
-                  <td className="fw-semibold">{stock.name}</td>
-                  <td>{stock.qty}</td>
-                  <td>{stock.avg.toFixed(2)}</td>
-                  <td>{stock.price.toFixed(2)}</td>
-                  <td className={`fw-semibold ${profClass}`}>
-                    {(curValue - stock.avg * stock.qty).toFixed(2)}
-                  </td>
-                  <td className={`fw-semibold ${dayClass}`}>
-                    {stock.day}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                return (
+                  <tr key={index}>
+                    <td className="px-3"><span className="badge bg-light text-secondary border">{stock.product}</span></td>
+                    <td className="px-3 fw-bold text-dark">{stock.name}</td>
+                    <td className="px-3">{stock.qty}</td>
+                    <td className="px-3">₹{stock.avg.toFixed(2)}</td>
+                    <td className="px-3 fw-semibold">₹{stock.price.toFixed(2)}</td>
+                    <td className={`px-3 fw-bold ${profClass}`}>
+                      {isProfit ? "+" : ""}₹{(curValue - stock.avg * stock.qty).toFixed(2)}
+                    </td>
+                    <td className={`px-3 fw-semibold ${dayClass}`}>
+                      {stock.day}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

@@ -45,30 +45,39 @@ const Orders = () => {
     );
 
   return (
-    <div className="orders">
-      <h3>Your Orders</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Stock</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>Mode</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order._id}>
-              <td>{order.name}</td>
-              <td>{order.qty}</td>
-              <td>{order.price}</td>
-              <td>{order.mode}</td>
-              <td>{new Date(order.createdAt).toLocaleString()}</td>
+    <div className="orders bg-white border rounded-3 p-3 p-md-4 shadow-sm">
+      <h3 className="fw-bold text-dark mb-3">Your Orders</h3>
+      <div className="table-responsive">
+        <table className="table table-hover align-middle mb-0 text-nowrap">
+          <thead className="table-light border-bottom">
+            <tr>
+              <th className="py-3 px-3">Stock</th>
+              <th className="py-3 px-3">Qty</th>
+              <th className="py-3 px-3">Price</th>
+              <th className="py-3 px-3">Mode</th>
+              <th className="py-3 px-3">Date</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {orders.map((order) => {
+              const isBuy = (order.mode || "").toUpperCase() === "BUY";
+              return (
+                <tr key={order._id}>
+                  <td className="px-3 fw-bold text-dark">{order.name}</td>
+                  <td className="px-3">{order.qty}</td>
+                  <td className="px-3 fw-semibold">₹{Number(order.price).toFixed(2)}</td>
+                  <td className="px-3">
+                    <span className={`badge ${isBuy ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger"} px-3 py-1 rounded-pill fw-bold`}>
+                      {order.mode}
+                    </span>
+                  </td>
+                  <td className="px-3 text-muted small">{new Date(order.createdAt).toLocaleString()}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

@@ -76,26 +76,31 @@ const WatchList = () => {
         })}
       </ul>
 
-      <DoughnutChart data={data} />
+      <div className="chart-wrapper text-center my-3 px-2">
+        <h6 className="text-muted small fw-semibold mb-2">Portfolio Allocation</h6>
+        <div style={{ maxWidth: "280px", margin: "0 auto" }}>
+          <DoughnutChart data={data} />
+        </div>
+      </div>
     </div>
   );
 };
 
 export default WatchList;
 
-
-
-
-
 const WatchListItem = ({ stock, searchTerm }) => {
   const [showWatchlistActions, setShowWatchlistActions] = useState(false);
 
-  const handleMouseEnter = (e) => {
+  const handleMouseEnter = () => {
     setShowWatchlistActions(true);
   };
 
-  const handleMouseLeave = (e) => {
+  const handleMouseLeave = () => {
     setShowWatchlistActions(false);
+  };
+
+  const handleClick = () => {
+    setShowWatchlistActions((prev) => !prev);
   };
 
   const isMatch = stock.name
@@ -106,6 +111,7 @@ const WatchListItem = ({ stock, searchTerm }) => {
     <li
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
       style={{
         backgroundColor: searchTerm && isMatch ? "#fff3cd" : "transparent",
       }}
@@ -115,11 +121,11 @@ const WatchListItem = ({ stock, searchTerm }) => {
         <div className="itemInfo">
           <span className="percent">{stock.percent}</span>
           {stock.isDown ? (
-            <KeyboardArrowDown className="down" />
+            <KeyboardArrowDown className="down text-danger" />
           ) : (
-            <KeyboardArrowUp className="down" />
+            <KeyboardArrowUp className="up text-success" />
           )}
-          <span className="price">{stock.price}</span>
+          <span className="price fw-semibold">{stock.price}</span>
         </div>
       </div>
       {showWatchlistActions && <WatchListActions uid={stock.name} />}
