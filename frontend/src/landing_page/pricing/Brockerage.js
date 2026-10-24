@@ -2,23 +2,19 @@ import React from "react";
 
 function Brockerage() {
   return (
-    <div className="container mt-5">
-
-      <div className="row p-5 mt-5 border-top">
+    <div className="container mt-4 mt-md-5">
+      <div className="row p-3 p-md-5 border-top">
 
         {/* LEFT COLUMN */}
-        <div className="col-8 p-4">
-          <a href="#" style={{ textDecoration: "none", color: "black" }}>
-            <h2 className="fw-bold mb-4">Brokerage Calculator</h2> {/* Bigger heading */}
-          </a>
+        <div className="col-12 col-lg-8 p-2 p-md-4">
+          <h2 className="fw-semibold fs-3 mb-4 text-center text-lg-start">Brokerage Calculator</h2>
 
           <ul
-            className="text-muted"
+            className="text-muted ps-3"
             style={{
               textAlign: "left",
               lineHeight: "2",
-              fontSize: "16px", // Increased font size for li items
-              marginLeft: "20px",
+              fontSize: "15px",
             }}
           >
             <li>
@@ -41,14 +37,13 @@ function Brockerage() {
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="col-4 p-4 d-flex align-items-start justify-content-center">
-          <a href="#" style={{ textDecoration: "none", color: "black" }}>
-            <h2 className="fw-bold">List of Charges</h2> {/* Bigger heading */}
+        <div className="col-12 col-lg-4 p-2 p-md-4 d-flex align-items-start justify-content-center justify-content-lg-end mt-3 mt-lg-0">
+          <a href="#charges" style={{ textDecoration: "none", color: "#1a73e8" }}>
+            <h3 className="fw-semibold fs-4">List of Charges <i className="fa fa-long-arrow-right ms-1"></i></h3>
           </a>
         </div>
 
       </div>
-
     </div>
   );
 }

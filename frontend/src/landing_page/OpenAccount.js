@@ -3,26 +3,26 @@ import { Link } from 'react-router-dom';
 
 function OpenAccount() {
   return (
-    <div className="container py-5 mt-5">
+    <div className="container py-4 py-md-5 my-3 my-md-5">
       <div className="row justify-content-center text-center">
-
-        {/* Heading */}
-        <div className="col-lg-8">
-          <h1 className="fw-bold mb-3" style={{ fontSize: "2.5rem" }}>
+        <div className="col-11 col-sm-10 col-md-8 col-lg-6">
+          <h2 className="fw-semibold mb-3 fs-1">
             Open a Zerodha account
-          </h1>
+          </h2>
 
-          {/* Description */}
-          <p className="mb-4" style={{ fontSize: "1.1rem", color: "#555", lineHeight: "1.7" }}>
+          <p className="mb-4 text-muted" style={{ fontSize: "1.05rem", lineHeight: "1.7" }}>
             Modern platforms and apps, ₹0 account opening, and flat ₹20 intraday and F&O trades.
           </p>
 
-          {/* Call-to-Action Button */}
-          <Link to="/signup" className="btn btn-primary btn-lg" style={{ padding: "12px 40px", borderRadius: "6px" }}>
-            Sign Up Now
+          <Link to="/signup" className="d-inline-block w-100">
+            <button 
+              className="btn btn-primary btn-lg px-4 py-2" 
+              style={{ maxWidth: "260px", width: "100%" }}
+            >
+              Sign Up Now
+            </button>
           </Link>
         </div>
-
       </div>
     </div>
   );

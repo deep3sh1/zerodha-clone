@@ -1,9 +1,8 @@
-// SupportPage.js
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
-function SupportPage() {
+function SupportHero() {
   const [openSection, setOpenSection] = useState(null);
 
   const toggle = (section) => {
@@ -76,37 +75,46 @@ function SupportPage() {
   ];
 
   return (
-    <div className="container my-5">
-      {sections.map((sec) => (
-        <div className="row mb-3 border-bottom" key={sec.id}>
-          <div
-            className="col-12 py-3 d-flex justify-content-between align-items-center"
-            style={{ cursor: "pointer" }}
-            onClick={() => toggle(sec.id)}
-          >
-            <h4 className="mb-0">{sec.title}</h4>
-            <FontAwesomeIcon
-              icon={openSection === sec.id ? faMinus : faPlus}
-              size="lg"
-            />
-          </div>
-          {openSection === sec.id && (
-            <div className="col-12 pb-3">
-              <ul style={{ lineHeight: "1.8", fontSize: "1rem", marginLeft: "20px" }}>
-                {sec.content.map((item, idx) => (
-                  <li key={idx}>
-                    <a href="#" style={{ color: "#1a73e8", textDecoration: "underline" }}>
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+    <div className="container my-4 my-md-5">
+      <div className="row mb-4">
+        <div className="col-12 text-center text-md-start">
+          <h2 className="fs-1 fw-semibold mb-2">Support Portal</h2>
+          <p className="text-muted">Frequently asked questions and guides</p>
         </div>
-      ))}
+      </div>
+
+      <div className="accordion-container">
+        {sections.map((sec) => (
+          <div className="row mb-3 border rounded-3 p-1 p-md-2 bg-white shadow-sm" key={sec.id}>
+            <div
+              className="col-12 py-3 px-3 d-flex justify-content-between align-items-center"
+              style={{ cursor: "pointer", userSelect: "none" }}
+              onClick={() => toggle(sec.id)}
+            >
+              <h3 className="mb-0 fs-5 fw-medium text-dark">{sec.title}</h3>
+              <FontAwesomeIcon
+                icon={openSection === sec.id ? faMinus : faPlus}
+                className="text-primary ms-2"
+              />
+            </div>
+            {openSection === sec.id && (
+              <div className="col-12 pb-3 px-3 border-top pt-3">
+                <ul className="mb-0 ps-3" style={{ lineHeight: "1.9", fontSize: "0.95rem" }}>
+                  {sec.content.map((item, idx) => (
+                    <li key={idx} className="my-1">
+                      <a href="#" style={{ color: "#1a73e8", textDecoration: "none" }}>
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-export default SupportPage;
+export default SupportHero;
