@@ -88,6 +88,24 @@ h1, h2, h3, h4, h5, h6 {
   outline: none;
 }
 
+/* Desktop Navbar Links */
+.navbar-nav-links {
+  gap: 28px;
+}
+
+.navbar-nav-links .nav-link {
+  white-space: nowrap !important;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #666 !important;
+  transition: color 0.2s ease;
+  padding: 0.5rem 0.5rem !important;
+}
+
+.navbar-nav-links .nav-link:hover {
+  color: #387ed1 !important;
+}
+
 @media (max-width: 991.98px) {
   .navbar-collapse {
     background: #ffffff;

@@ -36,11 +36,9 @@ function Navbar() {
 
                 {/* Navbar links */}
                 <div className={`collapse navbar-collapse justify-content-end ${isNavOpen ? 'show' : ''}`} id="navbarNav">
-                    <ul className="navbar-nav align-items-center mt-3 mt-lg-0" style={{ gap: "20px" }}>
-
-                        {/* React Router Links */}
+                    <ul className="navbar-nav align-items-center mt-3 mt-lg-0 navbar-nav-links">
                         <li className="nav-item">
-                            <Link to="/signup" className="nav-link" onClick={closeNav}>Sign Up</Link>
+                            <Link to="/signup" className="nav-link" onClick={closeNav}>Signup</Link>
                         </li>
                         <li className="nav-item">
                             <Link to="/about" className="nav-link" onClick={closeNav}>About</Link>
@@ -57,16 +55,6 @@ function Navbar() {
                         <li className="nav-item">
                             <Link to="/Login" className="nav-link" onClick={closeNav}>Login</Link>
                         </li>
-
-                        {/* CTA button */}
-                        <li className="nav-item mt-2 mt-lg-0 w-100 w-lg-auto">
-                            <Link to="/signup" onClick={closeNav} className="d-block d-lg-inline-block">
-                                <button className="btn btn-primary px-4 py-2 w-100">
-                                    Get Started
-                                </button>
-                            </Link>
-                        </li>
-
                     </ul>
                 </div>
             </div>
