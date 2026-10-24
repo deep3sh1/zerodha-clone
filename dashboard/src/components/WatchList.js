@@ -109,6 +109,7 @@ const WatchListItem = ({ stock, searchTerm }) => {
 
   return (
     <li
+      className={`watchlist-item ${showWatchlistActions ? "actions-visible" : ""}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
@@ -128,43 +129,46 @@ const WatchListItem = ({ stock, searchTerm }) => {
           <span className="price fw-semibold">{stock.price}</span>
         </div>
       </div>
-      {showWatchlistActions && <WatchListActions uid={stock.name} />}
+      <WatchListActions uid={stock.name} />
     </li>
   );
 };
 
-
 const WatchListActions = ({ uid }) => {
   const generalContext = useContext(GeneralContext);
 
-  const handleBuyClick = () => {
+  const handleBuyClick = (e) => {
+    e.stopPropagation();
     generalContext.openBuyWindow(uid);
   };
 
-  const handleSellClick = () => {
+  const handleSellClick = (e) => {
+    e.stopPropagation();
     generalContext.openSellWindow(uid);
   };
 
   return (
-    <span className="actions">
+    <span className="actions" onClick={(e) => e.stopPropagation()}>
       <span>
         <Tooltip
           title="Buy (B)"
           placement="top"
           arrow
           TransitionComponent={Grow}
-          onClick={handleBuyClick}
         >
-          <button className="buy">Buy</button>
+          <button className="buy" onClick={handleBuyClick}>
+            Buy
+          </button>
         </Tooltip>
         <Tooltip
           title="Sell (S)"
           placement="top"
           arrow
           TransitionComponent={Grow}
-          onClick={handleSellClick}
         >
-          <button className="sell">Sell</button>
+          <button className="sell" onClick={handleSellClick}>
+            Sell
+          </button>
         </Tooltip>
         <Tooltip
           title="Analytics (A)"
@@ -172,12 +176,12 @@ const WatchListActions = ({ uid }) => {
           arrow
           TransitionComponent={Grow}
         >
-          <button className="action">
+          <button className="action" onClick={(e) => e.stopPropagation()}>
             <BarChartOutlined className="icon" />
           </button>
         </Tooltip>
         <Tooltip title="More" placement="top" arrow TransitionComponent={Grow}>
-          <button className="action">
+          <button className="action" onClick={(e) => e.stopPropagation()}>
             <MoreHoriz className="icon" />
           </button>
         </Tooltip>
