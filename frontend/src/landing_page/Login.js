@@ -10,35 +10,61 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
+    const isLocal =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+
+    const localEndpoint = "/api/auth/login";
+    const remoteEndpoint = "https://zerodha-backend-q0yx.onrender.com/api/auth/login";
+
     try {
-      const res = await fetch(
-        "https://zerodha-backend-q0yx.onrender.com/api/auth/login",
-        {
+      let res;
+      let data = null;
+
+      // Try local proxy endpoint first on localhost to avoid CORS, else remote
+      const primaryUrl = isLocal ? localEndpoint : remoteEndpoint;
+      try {
+        res = await fetch(primaryUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ identifier, password }),
+        });
+        data = await res.json().catch(() => null);
+      } catch (firstErr) {
+        // Fallback: if local proxy didn't respond, try remote directly
+        if (isLocal) {
+          res = await fetch(remoteEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ identifier, password }),
+          });
+          data = await res.json().catch(() => null);
+        } else {
+          throw firstErr;
         }
-      );
-
-      const data = await res.json().catch(() => null);
+      }
 
       if (!data) {
         alert("Server returned an unexpected response.");
         return;
       }
 
-      if (res.ok && data.token) {
+      if (res && res.ok && data.token) {
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("token", data.token);
 
-        window.location.href =
-          `https://zerodha-dashboard-kx91.onrender.com?token=${data.token}&username=${data.user.username}`;
+        // Redirect to local dashboard (port 3001) if running locally, otherwise Render dashboard
+        const dashboardUrl = isLocal
+          ? `http://localhost:3001?token=${data.token}&username=${encodeURIComponent(data.user?.username || identifier)}`
+          : `https://zerodha-dashboard-kx91.onrender.com?token=${data.token}&username=${encodeURIComponent(data.user?.username || identifier)}`;
+
+        window.location.href = dashboardUrl;
       } else {
         alert(data.message || "Invalid username or password");
       }
     } catch (err) {
-      console.error(err);
-      alert("An error occurred. Please try again.");
+      console.error("Login error:", err);
+      alert("An error occurred during login. Please check credentials and try again.");
     } finally {
       setLoading(false);
     }

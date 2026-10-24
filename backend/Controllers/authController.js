@@ -7,30 +7,35 @@ exports.signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    const existingUser = await UserModel.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ success: false, message: "Email already registered" });
+    if (!username || !email || !password) {
+      return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const existingUser = await UserModel.findOne({
+      $or: [{ email }, { username }],
+    });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: existingUser.email === email ? "Email already registered" : "Username already in use",
+      });
+    }
 
+    // Do NOT hash password here: UserModel.pre("save") hook already hashes it with bcrypt
     const newUser = new UserModel({
       username,
       email,
-      password: hashedPassword,
+      password,
     });
 
     await newUser.save();
 
-    // 🔹 ADD THIS TOKEN GENERATION
     const token = jwt.sign(
       { id: newUser._id, username: newUser.username, email: newUser.email },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || "mysecretkey",
       { expiresIn: "7d" }
     );
 
-    // 🔹 RETURN USER + TOKEN
     res.status(201).json({
       success: true,
       token,
@@ -47,10 +52,14 @@ exports.signup = async (req, res) => {
 };
 
 
-// Login controller (UNCHANGED)
+// Login controller
 exports.login = async (req, res) => {
   try {
     const { identifier, password } = req.body;
+
+    if (!identifier || !password) {
+      return res.status(400).json({ success: false, message: "Username/email and password are required" });
+    }
 
     const user = await UserModel.findOne({
       $or: [{ email: identifier }, { username: identifier }],
@@ -67,7 +76,7 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign(
       { id: user._id, username: user.username, email: user.email },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || "mysecretkey",
       { expiresIn: "7d" }
     );
 
@@ -76,6 +85,26 @@ exports.login = async (req, res) => {
       token,
       user: { username: user.username, email: user.email },
     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// Reset Password controller
+exports.resetPassword = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+    if (!email || !newPassword) {
+      return res.status(400).json({ success: false, message: "Email and new password are required" });
+    }
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    user.password = newPassword;
+    await user.save();
+    return res.json({ success: true, message: "Password updated successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "Server error" });

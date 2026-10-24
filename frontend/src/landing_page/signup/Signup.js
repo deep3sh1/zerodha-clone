@@ -18,30 +18,66 @@ export default function Signup() {
 
     setLoading(true);
 
+    const isLocal =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+
+    const localEndpoint = "/api/auth/signup";
+    const remoteEndpoint = "https://zerodha-backend-q0yx.onrender.com/api/auth/signup";
+
     try {
-      const res = await fetch("https://zerodha-backend-q0yx.onrender.com/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      });
+      let res;
+      let data = null;
 
-      const data = await res.json();
+      // Try local proxy endpoint first on localhost to avoid CORS, else remote
+      const primaryUrl = isLocal ? localEndpoint : remoteEndpoint;
+      try {
+        res = await fetch(primaryUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, email, password }),
+        });
+        data = await res.json().catch(() => null);
+      } catch (firstErr) {
+        if (isLocal) {
+          res = await fetch(remoteEndpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, email, password }),
+          });
+          data = await res.json().catch(() => null);
+        } else {
+          throw firstErr;
+        }
+      }
 
-      if (res.ok && data.token) {
+      if (!data) {
+        alert("Server returned an unexpected response.");
+        return;
+      }
+
+      if (res && res.ok && data.token) {
         alert("Signup successful!");
 
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        window.location.href = `https://zerodha-dashboard-kx91.onrender.com?token=${data.token}&username=${data.user.username}`;
+        // Redirect to local dashboard (port 3001) if running locally, otherwise Render dashboard
+        const dashboardUrl = isLocal
+          ? `http://localhost:3001?token=${data.token}&username=${encodeURIComponent(data.user?.username || username)}`
+          : `https://zerodha-dashboard-kx91.onrender.com?token=${data.token}&username=${encodeURIComponent(data.user?.username || username)}`;
+
+        window.location.href = dashboardUrl;
       } else {
         alert(data.message || "Signup failed");
       }
     } catch (err) {
-      console.error(err);
-      alert("An error occurred. Please try again.");
+      console.error("Signup error:", err);
+      alert("An error occurred during signup. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -92,10 +128,10 @@ export default function Signup() {
               <form className="d-flex flex-column gap-3" onSubmit={handleSignup}>
 
                 <div>
-                  <label className="form-label text-muted small fw-medium mb-1">Full Name</label>
+                  <label className="form-label text-muted small fw-medium mb-1">Full Name / Username</label>
                   <input
                     type="text"
-                    placeholder="Enter your name"
+                    placeholder="Enter your username"
                     className="form-control form-control-lg rounded-3"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
